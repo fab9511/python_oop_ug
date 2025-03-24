@@ -92,9 +92,8 @@ def leap_year(year: int) -> bool:
         return True
     return False
 
-def test():
+if __name__ == "__main__":
     dates = generate_random_dates(20)
-
     print("Wszystkie daty: ")
     for element in dates:
         day, month, year = element.date.values()
@@ -104,5 +103,3 @@ def test():
     for element in bubble_sort(dates):
         day, month, year = element.date.values()
         print(f"{year}-{month}-{day}")
-
-test()

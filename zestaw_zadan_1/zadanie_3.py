@@ -14,11 +14,9 @@ class JosephusProblem:
         self.__eliminate()
         return self.people[0]
 
-
-def main():
+if __name__ == "__main__":
     print("Podaj liczbę ludzi w okręgu: ")
     problem = JosephusProblem(int(input()))
     safe_position = problem.find_safe_position()
     print(f"Bezpieczna pozycja: {safe_position}")
 
-main()

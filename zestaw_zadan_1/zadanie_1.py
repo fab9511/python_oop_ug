@@ -1,6 +1,5 @@
 import math
 
-
 def prime(number):
     """Zwraca n liczb pierwszych.
 
@@ -21,7 +20,6 @@ def prime(number):
         if is_prime(num):
             count+=1
             primes_list.append(num)
-
 
     return primes_list
 
@@ -44,7 +42,7 @@ def is_prime(number):
             return False
     return True
 
-
-#testy programu
-print("Podaj ile liczb pierwszych wypisać: ")
-print(prime(int(input())))
+if __name__ ==  "__main__":
+    #testy programu
+    print("Podaj ile liczb pierwszych wypisać: ")
+    print(prime(int(input())))

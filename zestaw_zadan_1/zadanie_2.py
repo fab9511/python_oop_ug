@@ -35,9 +35,10 @@ def sum_of_dividers(number):
             sum_div += i
     return sum_div
 
-print("Program wypisze zaprzyjaźnione liczby z danego zakresu: ")
-print("Podaj zakres dolny: ")
-bottom = int(input())
-print("Podaj górny zakres: ")
-top = int(input())
-print(friendly_numbers(bottom, top))
+if __name__ ==  "__main__":
+    print("Program wypisze zaprzyjaźnione liczby z danego zakresu: ")
+    print("Podaj zakres dolny: ")
+    bottom = int(input())
+    print("Podaj górny zakres: ")
+    top = int(input())
+    print(friendly_numbers(bottom, top))
