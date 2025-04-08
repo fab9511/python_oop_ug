@@ -5,8 +5,11 @@ if __name__ == '__main__':
     global chessboard
     print("Inicjalizacja szachownicy")
     display()
+
     if positions:=chessboard.pion_in_danger():
         print("Pion zbity")
-        print(f'Hetmany atakujące {positions}')
+        print("Hetmany atakujące: ", end=" ")
+        for coordinates in positions:
+            print(chr(coordinates[1]+ord("A")-1) + str(coordinates[0]), end=", ")
     else:
         print("Pion bezpieczny")
