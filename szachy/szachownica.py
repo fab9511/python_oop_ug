@@ -10,10 +10,13 @@ class Chessboard:
             raise TypeError('size and number of hetman must be an integer')
 
         self.size = size
+        self.num_hetman = num_hetman
         # self.max_figures = size**2  ## dodać max, aby nie tworzyć nieskończonej petli w __generate_figure()
         self.board = [[0 for _ in range(size)] for _ in range(size)]
         self.__generate_figure(HETMAN, num_hetman)
         self.__generate_figure(PION, num_pion)
+        self.pion_danger = True
+
 
     def __generate_figure(self, figures, num_figure):
         while num_figure > 0:
@@ -117,6 +120,23 @@ class Chessboard:
 
         return False  # Jeśli nie znaleziono możliwego bicia piona
 
+
+    def new_position_pion(self):
+        row, col = self.__find_pion()
+        self.board[row][col] = 0
+        self.__generate_figure(PION, 1)
+
+
+    def __find_pion(self):
+        for row_index, row in enumerate(self.board):
+            for col_index, value in enumerate(row):
+                if value == PION:
+                    return row_index, col_index
+        return None
+
+
+    def remove_hetman(self, row, col):
+        self.board[row][col] = 0
 
 chessboard = Chessboard()
 
