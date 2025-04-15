@@ -11,14 +11,14 @@ class Chessboard:
 
         self.size = size
         self.num_hetman = num_hetman
-        # self.max_figures = size**2  ## dodać max, aby nie tworzyć nieskończonej petli w __generate_figure()
+        # self.max_figures = size**2  ## dodać max, aby nie tworzyć nieskończonej petli w __place_random_figures()
         self.board = [[0 for _ in range(size)] for _ in range(size)]
-        self.__generate_figure(HETMAN, num_hetman)
-        self.__generate_figure(PION, num_pion)
+        self.__place_random_figures(HETMAN, num_hetman)
+        self.__place_random_figures(PION, num_pion)
         self.pion_danger = True
 
 
-    def __generate_figure(self, figures, num_figure):
+    def __place_random_figures(self, figures, num_figure):
         while num_figure > 0:
             set_x = random.randint(0, self.size-1)
             set_y = random.randint(0, self.size-1)
@@ -41,14 +41,14 @@ class Chessboard:
                 if value == PION:
                     continue
                 elif value == HETMAN:
-                    if self.__moves_hetman(num_row, num_col):
+                    if self.__can_attack_pion(num_row, num_col):
                         res.append((num_row+1, num_col+1))
                 else:
                     continue
         return res
 
 
-    def __moves_hetman(self, row, col):
+    def __can_attack_pion(self, row, col):
         moves = [True] * 8
 
         for z in range(1, self.size):  #bo z = 0 => pozycja hetmana
@@ -124,7 +124,7 @@ class Chessboard:
     def new_position_pion(self):
         row, col = self.__find_pion()
         self.board[row][col] = 0
-        self.__generate_figure(PION, 1)
+        self.__place_random_figures(PION, 1)
 
 
     def __find_pion(self):
