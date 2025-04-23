@@ -1,3 +1,15 @@
+"""
+szachownica.py
+
+Moduł odpowiedzialny za logikę szachownicy i operacje na figurach.
+Zawiera klasę Chessboard, która umożliwia losowe rozmieszczenie hetmanów i pionka,
+sprawdzenie zagrożenia dla pionka oraz manipulację figurami (np. usuwanie, zmiana pozycji).
+
+Stałe:
+    HETMAN = 4
+    PION = 1
+"""
+
 import random
 
 HETMAN = 4
@@ -5,6 +17,13 @@ PION = 1
 
 
 class Chessboard:
+    """
+    Reprezentuje planszę szachową i logikę operacji na figurach.
+
+    :param size: int - rozmiar planszy (domyślnie 8x8).
+    :param num_hetman: int - liczba hetmanów (maksymalnie 5).
+    :param num_pion: int - liczba pionków (zawsze 1).
+    """
     def __init__(self, size = 8, num_hetman = 5, num_pion = 1):
         if not isinstance(size, int) or not isinstance(num_hetman, int):
             raise TypeError('size and number of hetman must be an integer')
@@ -19,6 +38,13 @@ class Chessboard:
 
 
     def __place_random_figures(self, figures, num_figure):
+        """
+        Umieszcza losowo określoną liczbę figur na planszy.
+
+        :param figures: int - typ figury (HETMAN lub PION).
+        :param num_figure: int - liczba figur do umieszczenia.
+        :return: None
+        """
         while num_figure > 0:
             set_x = random.randint(0, self.size-1)
             set_y = random.randint(0, self.size-1)
@@ -27,6 +53,14 @@ class Chessboard:
 
 
     def __set_figure(self, figures, set_x, set_y):
+        """
+        Ustawia figurę na wskazanej pozycji, jeśli jest pusta.
+
+        :param figures: int - typ figury.
+        :param set_x: int - kolumna.
+        :param set_y: int - wiersz.
+        :return: bool - True jeśli udało się ustawić figurę.
+        """
         if self.board[set_y][set_x] == 0:
             self.board[set_y][set_x] = figures
             return True
@@ -35,6 +69,11 @@ class Chessboard:
 
 
     def pion_in_danger(self):
+        """
+        Sprawdza, czy pionek jest zagrożony przez któregoś z hetmanów.
+
+        :return: list - lista współrzędnych hetmanów, którzy atakują pionka.
+        """
         res = []
         for num_row, row  in enumerate(self.board):
             for num_col, value in enumerate(row):
@@ -49,6 +88,13 @@ class Chessboard:
 
 
     def __can_attack_pion(self, row, col):
+        """
+        Sprawdza, czy hetman na danej pozycji może zaatakować pionka.
+
+        :param row: int - wiersz hetmana.
+        :param col: int - kolumna hetmana.
+        :return: bool - True jeśli może zaatakować pionka.
+        """
         moves = [True] * 8
 
         for z in range(1, self.size):  #bo z = 0 => pozycja hetmana
@@ -122,12 +168,22 @@ class Chessboard:
 
 
     def new_position_pion(self):
+        """
+        Przypisuje pionkowi nową losową pozycję na planszy.
+
+        :return: None
+        """
         row, col = self.__find_pion()
         self.board[row][col] = 0
         self.__place_random_figures(PION, 1)
 
 
     def __find_pion(self):
+        """
+        Znajduje aktualną pozycję pionka.
+
+        :return: tuple - współrzędne (row, col) pionka.
+        """
         for row_index, row in enumerate(self.board):
             for col_index, value in enumerate(row):
                 if value == PION:
@@ -136,6 +192,13 @@ class Chessboard:
 
 
     def remove_hetman(self, row, col):
+        """
+        Usuwa hetmana z danej pozycji.
+
+        :param row: int - numer wiersza (0-indexed).
+        :param col: int - numer kolumny (0-indexed).
+        :return: None
+        """
         self.board[row][col] = 0
 
 chessboard = Chessboard()

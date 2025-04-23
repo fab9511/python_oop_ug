@@ -1,28 +1,65 @@
+"""
+view_board.py
+
+Moduł odpowiedzialny za prezentację szachownicy oraz wizualne informowanie o stanie pionka.
+Zawiera funkcje do wyświetlania planszy z figurami oraz komunikatów o zagrożeniu pionka.
+
+Używa globalnej instancji `chessboard` z modułu `szachownica`.
+"""
+
+
 from szachownica import *
-global chessboard
 
 
-def display_board():
+def display_column_headers(size):
+    """
+    Wyświetla nagłówki kolumn (A-H) nad planszą.
+
+    :param size: int - rozmiar planszy (np. 8 dla planszy 8x8).
+    :return: None
+    """
+    print("   " + " ".join(chr(ord('A') + i) for i in range(size)))
+
+
+def display_row(row, row_num):
+    """
+    Wyświetla jeden wiersz planszy z figurami i odpowiednim tłem.
+
+    :param row: list - lista zawierająca figury w danym wierszu.
+    :param row_num: int - numer wiersza (1-8).
+    :return: None
+    """
+    print(f"{row_num:2} ", end="")  # Num row
+    for j, figure in enumerate(row):
+        if figure == HETMAN:
+            print("H", end=" ")
+        elif figure == PION:
+            print("P", end=" ")
+        else:
+            background = "░" if (row_num + j) % 2 == 0 else "█"
+            print(background, end=" ")
+    print()
+
+
+def display_board(chessboard):
+    """
+    Wyświetla całą szachownicę z oznaczeniami wierszy i kolumn oraz figurami.
+
+    :return: None
+    """
     size = chessboard.size
-
-    print("   " + " ".join(chr(ord('A') + i) for i in range(size)))  # Naglowek kolumn
+    display_column_headers(size)
     for i, row in enumerate(chessboard.board):
-        print(f"{i + 1:2} ", end="")  # Numer wiersza
-        for j, figure in enumerate(row):
-            if (i + j) % 2 == 0:
-                background = "░"
-            else:
-                background = "█"
+        display_row(row, i+1)
 
-            if figure == HETMAN:
-                print("H", end=" ")
-            elif figure == PION:
-                print("P", end=" ")
-            else:
-                print(background, end=" ")
-        print()
 
-def display_pion_danger():
+def display_pion_danger(chessboard):
+    """
+    Sprawdza, czy pionek jest atakowany i wypisuje odpowiednią informację.
+    Jeśli tak, wyświetla również pozycje wszystkich hetmanów zagrażających pionkowi.
+
+    :return: None
+    """
     if positions:=chessboard.pion_in_danger():
         print("Pion zbity")
         print("Hetmany atakujące: ", end=" ")
