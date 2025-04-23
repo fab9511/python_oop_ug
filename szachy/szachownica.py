@@ -29,8 +29,9 @@ class Chessboard:
             raise TypeError('size and number of hetman must be an integer')
 
         self.size = size
+        if num_hetman > 5:
+            raise ValueError('num_hetman must be less than 6')
         self.num_hetman = num_hetman
-        # self.max_figures = size**2  ## dodać max, aby nie tworzyć nieskończonej petli w __place_random_figures()
         self.board = [[0 for _ in range(size)] for _ in range(size)]
         self.__place_random_figures(HETMAN, num_hetman)
         self.__place_random_figures(PION, num_pion)

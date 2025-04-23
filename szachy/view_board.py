@@ -41,26 +41,26 @@ def display_row(row, row_num):
     print()
 
 
-def display_board(chessboard):
+def display_board(plansza = chessboard):
     """
     Wyświetla całą szachownicę z oznaczeniami wierszy i kolumn oraz figurami.
 
     :return: None
     """
-    size = chessboard.size
+    size = plansza.size
     display_column_headers(size)
-    for i, row in enumerate(chessboard.board):
+    for i, row in enumerate(plansza.board):
         display_row(row, i+1)
 
 
-def display_pion_danger(chessboard):
+def display_pion_danger(plansza = chessboard):
     """
     Sprawdza, czy pionek jest atakowany i wypisuje odpowiednią informację.
     Jeśli tak, wyświetla również pozycje wszystkich hetmanów zagrażających pionkowi.
 
     :return: None
     """
-    if positions:=chessboard.pion_in_danger():
+    if positions:=plansza.pion_in_danger():
         print("Pion zbity")
         print("Hetmany atakujące: ", end=" ")
         for coordinates in positions:
@@ -68,9 +68,9 @@ def display_pion_danger(chessboard):
         print("")
     else:
         print("Pion bezpieczny")
-        chessboard.pion_danger = False
+        plansza.pion_danger = False
 
 if __name__ == "__main__":
-    display_board() ##testing
+    display_board()
     display_pion_danger()
 
