@@ -5,7 +5,7 @@ Moduł zawiera logikę gry w szachy z pionkiem i hetmanami.
 Implementuje funkcje do generowania szachownicy, sprawdzania, czy pionek
 jest w niebezpieczeństwie oraz manipulacji figurami (losowanie pozycji, usuwanie hetmana).
 """
-from szachownica import *
+from szachownica import chessboard,HETMAN, PION
 import re
 
 
@@ -32,7 +32,6 @@ def delete_hetman(row, col):
     :param col: str - litera kolumny (od A do H).
     :return: None
     """
-    global chessboard
     row = int(row) - 1
     col = ord(col) - ord('A')
     chessboard.remove_hetman(row, col)
@@ -98,6 +97,7 @@ def execute_delete_hetman():
 
 def get_position():
     """
+    Pobiera od użytkownika współrzędne hetmana do usunięcia.
     Pobiera od użytkownika współrzędne hetmana do usunięcia.
 
     :return: tuple - (row, col), gdzie row to numer wiersza (str), a col to litera kolumny (str).

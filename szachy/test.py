@@ -65,11 +65,7 @@ class TestHetmanLogic(unittest.TestCase):
         self.board.remove_hetman(*pos)
         self.assertEqual(self.board.board[pos[0]][pos[1]], 0)
 
-
-
-
 "============================================================"
-
 
 class TestViewBoard(unittest.TestCase):
     @patch("sys.stdout", new_callable=StringIO)

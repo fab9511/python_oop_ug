@@ -204,15 +204,4 @@ class Chessboard:
 
 chessboard = Chessboard()
 
-if __name__ == '__main__':
-    board = Chessboard()
-    for num in board.board:
-        for figure in num:
-            if HETMAN == figure:
-                print("H", end=" ")
-            elif PION == figure:
-                print("P", end=" ")
-            else:
-                print(".", end=" ")
-        print()
 

@@ -47,7 +47,7 @@ def display_board(plansza = chessboard):
 
     :return: None
     """
-    size = plansza.size
+    size = plansza.size 
     display_column_headers(size)
     for i, row in enumerate(plansza.board):
         display_row(row, i+1)
@@ -69,8 +69,3 @@ def display_pion_danger(plansza = chessboard):
     else:
         print("Pion bezpieczny")
         plansza.pion_danger = False
-
-if __name__ == "__main__":
-    display_board()
-    display_pion_danger()
-
