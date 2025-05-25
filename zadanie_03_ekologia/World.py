@@ -1,5 +1,6 @@
 from Position import Position
 from Organisms.Plant import Plant
+from Organisms.Lynx import Lynx
 from Action import Action
 from ActionEnum import ActionEnum
 
@@ -144,6 +145,14 @@ class World(object):
 			pomOrg = self.getOrganismFromPosition(filed)
 			if pomOrg is None or isinstance(pomOrg, Plant):
 				result.append(filed)
+		return result
+
+	def filterPositionsWithLynx(self, fields):
+		result = []
+		for pos in fields:
+			org = self.getOrganismFromPosition(pos)
+			if isinstance(org, Lynx):
+				result.append(pos)
 		return result
 
 	def __str__(self):
