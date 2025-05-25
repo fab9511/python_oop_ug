@@ -14,6 +14,7 @@ class Organism(ABC):
 		self.__powerToReproduce = None
 		self.__sign = None
 		self.__world = None
+		self.__skipLifeLossThisTurn = False
 
 		if organism is not None:
 			self.__power = organism.power
@@ -23,6 +24,7 @@ class Organism(ABC):
 			self.__powerToReproduce = organism.powerToReproduce
 			self.__sign = organism.sign
 			self.__world = organism.__world
+
 		else:
 			if position is not None:
 				self.__position = position
@@ -54,6 +56,14 @@ class Organism(ABC):
 	@position.setter
 	def position(self, value):
 		self.__position = value
+
+	@property
+	def skipLifeLossThisTurn(self):
+		return self.__skipLifeLossThisTurn
+
+	@skipLifeLossThisTurn.setter
+	def skipLifeLossThisTurn(self, value):
+		self.__skipLifeLossThisTurn = value
 
 	@property
 	def liveLength(self):
@@ -102,6 +112,12 @@ class Organism(ABC):
 	@abstractmethod
 	def clone(self):
 		pass
+
+	def decreaseLife(self):
+		if not self.skipLifeLossThisTurn:
+			self.liveLength -= 1
+		else:
+			self.skipLifeLossThisTurn = False
 
 	def consequences(self, atackingOrganism):
 		result = []

@@ -14,6 +14,9 @@ class World(object):
 		self.__organisms = []
 		self.__newOrganisms = []
 		self.__separator = '.'
+		self.__plagueTurnsLeft = 0
+		self.__plagueActive = False
+		self.__plagueAlreadyApplied = False
 
 	@property
 	def worldX(self):
@@ -51,8 +54,40 @@ class World(object):
 	def separator(self):
 		return self.__separator
 
+	@property
+	def plagueTurnsLeft(self):
+		return self.__plagueTurnsLeft
+
+	@plagueTurnsLeft.setter
+	def plagueTurnsLeft(self, value):
+		self.__plagueTurnsLeft = value
+
+	@property
+	def plagueActive(self):
+		return self.__plagueActive
+
+	@plagueActive.setter
+	def plagueActive(self, value):
+		self.__plagueActive = value
+		if value:
+			self.plagueTurnsLeft = 2
+
+	@property
+	def plagueAlreadyApplied(self):
+		return self.__plagueAlreadyApplied
+
+	@plagueAlreadyApplied.setter
+	def plagueAlreadyApplied(self, value):
+		self.__plagueAlreadyApplied = value
+
 	def makeTurn(self):
 		actions = []
+
+		if self.plagueActive:
+			if not self.plagueAlreadyApplied:
+				self.enablePlague()
+				self.plagueAlreadyApplied = True
+			self.updatePlague()
 
 		for org in self.organisms:
 			if self.positionOnBoard(org.position):
@@ -68,7 +103,7 @@ class World(object):
 
 		self.organisms = [o for o in self.organisms if self.positionOnBoard(o.position)]
 		for o in self.organisms:
-			o.liveLength -= 1
+			o.decreaseLife()
 			o.power += 1
 			if o.liveLength < 1:
 				print(str(o.__class__.__name__) + ': died of old age at: ' + str(o.position))
@@ -154,6 +189,26 @@ class World(object):
 			if isinstance(org, Lynx):
 				result.append(pos)
 		return result
+
+	def enablePlague(self):
+		print("🔬 Aktywowano tryb plagii!")
+		for organism in self.organisms:
+			organism.liveLength = max(1, organism.liveLength // 2)
+			organism.skipLifeLossThisTurn = True
+
+	def updatePlague(self):
+		if self.plagueTurnsLeft > 0:
+			print(f"🧫 Plaga aktywna – pozostało {self.plagueTurnsLeft} tur")
+			self.plagueTurnsLeft -= 1
+		if self.plagueTurnsLeft == 0:
+			self.plagueActive = False
+			self.plagueAlreadyApplied = False
+			print("✅ Plaga zakończona.")
+
+	def activatePlague(self, turns=2):
+		if not self.plagueActive:
+			self.plagueActive = True
+			self.plagueTurnsLeft = turns
 
 	def __str__(self):
 		result = '\nturn: ' + str(self.__turn) + '\n'

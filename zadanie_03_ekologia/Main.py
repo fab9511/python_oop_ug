@@ -28,6 +28,7 @@ if __name__ == '__main__':
 	pyWorld.addOrganism(newOrg)
 
 	print(pyWorld)
+	pyWorld.plagueActive = True
 
 	for _ in range(0, 50):
 		input('')
