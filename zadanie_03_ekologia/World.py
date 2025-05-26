@@ -71,7 +71,7 @@ class World(object):
 	@plagueActive.setter
 	def plagueActive(self, value):
 		self.__plagueActive = value
-		if value:
+		if value and self.plagueTurnsLeft == 0:
 			self.plagueTurnsLeft = 2
 
 	@property
