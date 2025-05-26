@@ -160,7 +160,7 @@ class Simulation:
         y_offset = 10
         for i, log in enumerate(logs):
             color_value = 255 - (i % 2) * 100 ##naprzemienne kolory
-            text = self.font.render(str(log), True, (color_value, color_value, color_value))
+            text = self.font.render(str(log), True, (255, 255, color_value))
             self.screen.blit(text, (10, log_start_y + y_offset + (i + 1) * 20))
 
     def draw_scrollbar_if_needed(self):
