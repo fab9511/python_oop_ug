@@ -9,7 +9,7 @@ from Organisms.Antelope import Antelope
 import os
 
 class Simulation:
-    WIDTH, HEIGHT = 1000, 600
+    WIDTH, HEIGHT = 920, 600
     BOARD_SIZE = 600
     INFO_PANEL_WIDTH = WIDTH - BOARD_SIZE
     ROWS, COLS = 10, 10
@@ -81,6 +81,7 @@ class Simulation:
 
 
         lines = [
+            f"Numer tury: {str(self.pyWorld.numberTurns)}",
             "Dostępne klawisze:",
             "Enter - kolejna tura",
             "P - włącz plagę",
@@ -102,6 +103,7 @@ class Simulation:
                 lines.append("4. Antylopa")
                 lines.append("ESC Zamknij tryb")
             else:
+                lines.append("")
                 lines.append(f"Dodajesz: {self.organism_to_add} (kliknij na planszę)")
 
         y_offset = 10
@@ -110,13 +112,17 @@ class Simulation:
             self.screen.blit(text_surf, (panel_x + 10, y_offset))
             y_offset += 30
 
+    def draw_logs_panel(self):
+        pass
+
     def handle_keydown(self, event):
         if event.key == pygame.K_RETURN:
-            os.system('cls' if os.name == 'nt' else 'clear')
+            # os.system('cls' if os.name == 'nt' else 'clear') ===================================================
+            self.adding_mode = False #żeby znikło jak mamy next tur
             self.pyWorld.makeTurn()
         elif event.key == pygame.K_p:
             self.pyWorld.plagueActive = True
-            print("Plaga została aktywowana.")
+            self.adding_mode = False
         elif event.key == pygame.K_q:
             self.running = False
         elif event.key == pygame.K_a and not self.adding_mode:
@@ -125,19 +131,14 @@ class Simulation:
         elif self.adding_mode and self.organism_to_add is None:
             if event.key == pygame.K_1:
                 self.organism_to_add = "Grass"
-                print("Wybrano: Grass")
             elif event.key == pygame.K_2:
                 self.organism_to_add = "Sheep"
-                print("Wybrano: Sheep")
             elif event.key == pygame.K_3:
                 self.organism_to_add = "Lynx"
-                print("Wybrano: Lynx")
             elif event.key == pygame.K_4:
                 self.organism_to_add = "Antelope"
-                print("Wybrano: Antelope")
             elif event.key == pygame.K_ESCAPE:
                 self.adding_mode = False
-                print("Anulowano dodawanie.")
         else:
             print(f"Nieznany klawisz: {event.key}")
 
@@ -167,6 +168,7 @@ class Simulation:
 
         self.adding_mode = False
         self.organism_to_add = None
+
 
     def run(self):
         while self.running:

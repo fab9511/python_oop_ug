@@ -17,6 +17,8 @@ class World(object):
 		self.__plagueTurnsLeft = 0
 		self.__plagueActive = False
 		self.__plagueAlreadyApplied = False
+		self.numberTurns = 1
+		self.__logs = []
 
 	@property
 	def worldX(self):
@@ -80,8 +82,13 @@ class World(object):
 	def plagueAlreadyApplied(self, value):
 		self.__plagueAlreadyApplied = value
 
+	@property
+	def logs(self):
+		return self.__logs
+
 	def makeTurn(self):
 		actions = []
+		self.numberTurns += 1
 
 		if self.plagueActive:
 			if not self.plagueAlreadyApplied:
@@ -106,7 +113,7 @@ class World(object):
 			o.decreaseLife()
 			o.power += 1
 			if o.liveLength < 1:
-				print(str(o.__class__.__name__) + ': died of old age at: ' + str(o.position))
+				self.log(str(o.__class__.__name__) + ': died of old age at: ' + str(o.position))
 		self.organisms = [o for o in self.organisms if o.liveLength > 0]
 
 		self.newOrganisms = [o for o in self.newOrganisms if self.positionOnBoard(o.position)]
@@ -117,7 +124,7 @@ class World(object):
 		self.turn += 1
 
 	def makeMove(self, action):
-		print(action)
+		self.log(action)
 		if action.action == ActionEnum.A_ADD:
 			self.newOrganisms.append(action.organism)
 		elif action.action == ActionEnum.A_INCREASEPOWER:
@@ -126,6 +133,7 @@ class World(object):
 			action.organism.position = action.position
 		elif action.action == ActionEnum.A_REMOVE:
 			action.organism.position = Position(xPosition=-1, yPosition=-1)
+
 
 	def addOrganism(self, newOrganism):
 		newOrgPosition = Position(xPosition=newOrganism.position.x, yPosition=newOrganism.position.y)
@@ -212,6 +220,12 @@ class World(object):
 		if not self.plagueActive:
 			self.plagueActive = True
 			self.plagueTurnsLeft = turns
+
+	def log(self, message):
+		self.__logs.append(message)
+
+	def clearLogs(self):
+		self.__logs = []
 
 	def __str__(self):
 		result = '\nturn: ' + str(self.__turn) + '\n'
