@@ -136,6 +136,12 @@ class World(object):
 			return True
 		return False
 
+	def isPositionFree(self, pos):
+		if self.getOrganismFromPosition(pos) is None:
+			return True
+		else:
+			return False
+
 	def positionOnBoard(self, position):
 		return position.x >= 0 and position.y >= 0 and position.x < self.worldX and position.y < self.worldY
 
@@ -191,19 +197,16 @@ class World(object):
 		return result
 
 	def enablePlague(self):
-		print("🔬 Aktywowano tryb plagii!")
 		for organism in self.organisms:
 			organism.liveLength = max(1, organism.liveLength // 2)
 			organism.skipLifeLossThisTurn = True
 
 	def updatePlague(self):
 		if self.plagueTurnsLeft > 0:
-			print(f"🧫 Plaga aktywna – pozostało {self.plagueTurnsLeft} tur")
 			self.plagueTurnsLeft -= 1
 		if self.plagueTurnsLeft == 0:
 			self.plagueActive = False
 			self.plagueAlreadyApplied = False
-			print("✅ Plaga zakończona.")
 
 	def activatePlague(self, turns=2):
 		if not self.plagueActive:
