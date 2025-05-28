@@ -240,23 +240,26 @@ class Simulation:
         self.adding_mode = False
         self.organism_to_add = None
 
+    def handle_event(self, event):
+        if event.type == pygame.QUIT:
+            self.running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_DOWN:
+                if self.log_scroll < max(0, len(self.pyWorld.logs) - self.max_visible_logs):
+                    self.log_scroll += 1
+            elif event.key == pygame.K_UP:
+                if self.log_scroll > 0:
+                    self.log_scroll -= 1
+            else:
+                self.handle_keydown(event)
+        elif event.type == pygame.MOUSEBUTTONDOWN and self.adding_mode and self.organism_to_add:
+            self.handle_mouse_button_down(event)
+
     def run(self):
         while self.running:
             self.clock.tick(10)  # 10 fps
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_DOWN:
-                        if self.log_scroll < max(0, len(self.pyWorld.logs) - self.max_visible_logs):
-                            self.log_scroll += 1
-                    elif event.key == pygame.K_UP:
-                        if self.log_scroll > 0:
-                            self.log_scroll -= 1
-                    else:
-                        self.handle_keydown(event)
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.adding_mode and self.organism_to_add:
-                    self.handle_mouse_button_down(event)
+                self.handle_event(event)
 
             self.draw_world()
             self.draw_info_panel()

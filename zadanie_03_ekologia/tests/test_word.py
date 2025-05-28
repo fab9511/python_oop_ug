@@ -44,7 +44,7 @@ class TestWorldPlagueAndLogs(unittest.TestCase):
         self.world.plagueTurnsLeft = 5
         self.assertEqual(self.world.plagueTurnsLeft, 5)
 
-    def test_plagueActive_property_sets_turns_if_activated_with_zero_turns(self):
+    def test_plagueActive_property_sets_turns(self):
         self.world._World__plagueTurnsLeft = 0
         self.world.plagueActive = True
         self.assertTrue(self.world.plagueActive)

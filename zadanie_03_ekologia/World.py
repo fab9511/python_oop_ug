@@ -63,6 +63,10 @@ class World(object):
 	@plagueTurnsLeft.setter
 	def plagueTurnsLeft(self, value):
 		self.__plagueTurnsLeft = value
+		if self.__plagueTurnsLeft == 0:
+			for organism in self.organisms:
+				organism.skipLifeLossThisTurn = False
+
 
 	@property
 	def plagueActive(self):
@@ -109,6 +113,7 @@ class World(object):
 					actions = []
 
 		self.organisms = [o for o in self.organisms if self.positionOnBoard(o.position)]
+
 		for o in self.organisms:
 			o.decreaseLife()
 			o.power += 1
