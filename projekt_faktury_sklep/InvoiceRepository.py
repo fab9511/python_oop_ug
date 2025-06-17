@@ -20,8 +20,10 @@ class InvoiceRepository(ABC):
         self.add(invoice)
 
     def get_next_number(self):
-        return 1 if len(self.__data_source) else self.__data_source[len(self.__data_source) - 1].number + 1
+        return 1 if not len(self.__data_source) else self.__data_source[len(self.__data_source) - 1].number + 1
 
     @property
     def data_source(self):
         return self.__data_source
+
+
